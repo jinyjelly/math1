@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>곱셈공식 챌린지 (Music Ver.)</title>
+    <title>곱셈공식 챌린지</title>
     <style>
         body { margin: 0; padding: 20px; background-color: #f3f0f7; display: flex; justify-content: center; }
         #X_CHALLENGE { font-family: 'Malgun Gothic', sans-serif; text-align: center; background-color: #f3e5f5; padding: 20px; border-radius: 20px; border: 4px solid #9c27b0; width: 100%; max-width: 380px; box-sizing: border-box; min-height: 560px; position: relative; }
@@ -22,13 +22,11 @@
 </head>
 <body>
 <div id="X_CHALLENGE">
-    <audio id="bgmAudio" loop>
-        <source src="bgm.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="myBgm" loop src="bgm.mp3"></audio>
 
     <div id="S_START" class="scr on">
         <h2 style="color:#7b1fa2;">📐 곱셈공식 챌린지 🎵</h2>
-        <p style="color:gray;">음악과 함께 신나게 풀어보세요!<br>볼륨을 켜고 시작 버튼을 누르세요.</p>
+        <p style="color:gray;">선생님이 고르신 음악이 나옵니다!<br>준비되셨으면 아래 버튼을 눌러주세요.</p>
         <button id="GO_BTN" class="start-btn">시작하기</button>
     </div>
 
@@ -53,11 +51,11 @@
 <script>
 (function() {
     var ans = "", score = 0, timeLeft = 60, timer = null, isPaused = false;
-    const bgm = document.getElementById('bgmAudio');
+    const bgm = document.getElementById('myBgm');
 
     function init() {
-        // [시작하기] 버튼을 누르는 순간 음악 재생 (브라우저 제한 해제)
-        bgm.play().catch(e => console.log("음악 재생 실패:", e));
+        // 기계음(beep) 코드 삭제됨 -> bgm.mp3만 재생
+        bgm.play().catch(e => alert("음악 파일(bgm.mp3)을 찾을 수 없거나 재생이 차단되었습니다."));
         
         document.getElementById('S_START').classList.remove('on');
         document.getElementById('S_RES').classList.remove('on');
@@ -95,62 +93,3 @@
 
     function make() {
         isPaused = false;
-        document.getElementById('fb-msg').innerHTML = "";
-        var a = Math.floor(Math.random() * 3) + 1;
-        var b = Math.floor(Math.random() * 8) + 1;
-        var type = Math.floor(Math.random() * 3);
-        var pText = "", correct = "", ws = [];
-
-        if (type === 0) { 
-            pText = "(" + (a==1?"":a) + "x + " + b + ")²";
-            correct = fmt(a*a, 2*a*b, b*b);
-            ws = [fmt(a*a, 0, b*b), fmt(a*a, a*b, b*b), fmt(a*a, 2*a*b, b)];
-        } else if (type === 1) { 
-            pText = "(" + (a==1?"":a) + "x - " + b + ")²";
-            correct = fmt(a*a, -2*a*b, b*b);
-            ws = [fmt(a*a, 0, -b*b), fmt(a*a, -2*a*b, -b*b), fmt(a*a, -a*b, b*b)];
-        } else { 
-            pText = "(" + (a==1?"":a) + "x + " + b + ")(" + (a==1?"":a) + "x - " + b + ")";
-            correct = fmt(a*a, 0, -(b*b));
-            ws = [fmt(a*a, 0, b*b), fmt(a*a, -2*a*b, -b*b), fmt(a*a, 0, -b)];
-        }
-
-        document.getElementById('P_TXT').innerText = pText;
-        ans = correct;
-        var os = [ans, ws[0], ws[1], ws[2]].sort(() => 0.5 - Math.random());
-        var box = document.getElementById('O_BOX'); box.innerHTML = "";
-        os.forEach(v => {
-            var btn = document.createElement('button'); btn.className = 'opt-btn'; btn.innerText = v;
-            btn.onclick = () => { if(!isPaused) check(v); };
-            box.appendChild(btn);
-        });
-    }
-
-    function check(v) {
-        var fb = document.getElementById('fb-msg');
-        if(v === ans) {
-            score += 100;
-            fb.innerHTML = "<span style='color:blue;'>정답! +100 ✨</span>";
-            setTimeout(make, 300);
-        } else {
-            isPaused = true; 
-            fb.innerHTML = "<span style='color:red;'>오답! 🧐 정답은:</span><br>" + ans;
-            setTimeout(make, 1800);
-        }
-        updateUI();
-    }
-
-    function endGame() {
-        clearInterval(timer);
-        bgm.pause(); // 게임 끝나면 음악 정지
-        document.getElementById('S_QUIZ').classList.remove('on');
-        document.getElementById('S_RES').classList.add('on');
-        document.getElementById('FINAL_SCORE').innerText = score;
-    }
-
-    document.getElementById('GO_BTN').onclick = init;
-    document.getElementById('RE_BTN').onclick = init;
-})();
-</script>
-</body>
-</html>
