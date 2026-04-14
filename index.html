@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>곱셈공식 챌린지</title>
+    <title>곱셈공식 1,2 챌린지</title>
     <style>
-        body { margin: 0; padding: 20px; background-color: #f3f0f7; display: flex; justify-content: center; font-family: sans-serif; }
-        #X_CHALLENGE { text-align: center; background-color: #f3e5f5; padding: 20px; border-radius: 20px; border: 4px solid #9c27b0; width: 100%; max-width: 380px; box-sizing: border-box; min-height: 520px; position: relative; }
-        .scr { display: none; } .scr.on { display: block; }
-        #t-bar-box { width: 100%; height: 12px; background: #e1bee7; border-radius: 6px; margin-bottom: 15px; overflow: hidden; }
-        #t-bar-inner { width: 100%; height: 100%; background: #ab47bc; transition: width 0.1s linear; }
-        .st-bar { display: flex; justify-content: space-around; font-weight: bold; color: #4a148c; margin-bottom: 10px; }
-        .pr { font-size: 1.6rem; font-weight: bold; margin: 30px 0; min-height: 60px; color: #333; display: flex; align-items: center; justify-content: center; }
-        .opt-btn { font-size: 1.05rem; width: 100%; padding: 12px; background: #fff; border: 2px solid #9c27b0; border-radius: 10px; cursor: pointer; font-weight: bold; margin-bottom: 8px; color: #7b1fa2; }
-        #fb-msg { margin-top:15px; font-weight:bold; min-height: 3em; color: #4a148c; display: flex; align-items: center; justify-content: center; }
-        .start-btn { font-size: 1.8rem; padding: 15px 40px; background: #9c27b0; color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; margin-top: 50px; }
+        body { margin: 0; padding: 20px; background-color: #fff3e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #MUL_GAME { font-family: 'Malgun Gothic', sans-serif; text-align: center; background-color: #ffffff; padding: 20px; border-radius: 20px; border: 4px solid #ff9800; width: 100%; max-width: 400px; box-sizing: border-box; min-height: 600px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .scr { display: none; }
+        .scr.on { display: block; }
+        #t-bar-box { width: 100%; height: 12px; background: #ffe0b2; border-radius: 6px; margin-bottom: 15px; overflow: hidden; border: 1px solid #f57c00; }
+        #t-bar-inner { width: 100%; height: 100%; background: linear-gradient(90deg, #ffb74d, #ff9800); transition: width 0.1s linear; }
+        .st-bar { display: flex; justify-content: space-around; font-weight: bold; margin-bottom: 15px; color: #e65100; font-size: 1.1rem; }
+        .pr { font-size: 2.2rem; font-weight: bold; margin: 30px 0; min-height: 100px; display: flex; align-items: center; justify-content: center; color: #333; line-height: 1.4; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .opt-btn { font-size: 1.1rem; padding: 15px 5px; background: #fff; border: 2px solid #ff9800; border-radius: 12px; cursor: pointer; font-weight: bold; color: #ef6c00; transition: 0.2s; word-break: keep-all; }
+        #fb-msg { margin-top:20px; font-weight:bold; min-height: 4.5em; font-size: 1.2rem; line-height: 1.6; display: flex; align-items: center; justify-content: center; border: 2px dashed #ff9800; border-radius: 10px; background: #fffaf0; padding: 10px; }
+        .start-btn { font-size: 1.8rem; padding: 15px 40px; background: #ff9800; color: white; border: none; border-radius: 15px; cursor: pointer; font-weight: bold; margin-top: 50px; }
+        .re-btn { font-size: 1.2rem; padding: 15px; background: #e65100; color: white; border: none; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 20px; }
     </style>
 </head>
 <body>
-<div id="X_CHALLENGE">
-    <audio id="myBgm" loop src="bgm.mp3"></audio>
+<div id="MUL_GAME">
+    <audio id="bgm" loop preload="auto" src="bgm.mp3"></audio>
 
     <div id="S_START" class="scr on">
-        <h2 style="color:#7b1fa2;">📐 곱셈공식 챌린지</h2>
-        <p id="loading-msg" style="color:gray;">음악을 불러오는 중일 수 있습니다...<br>준비되면 아래 버튼을 누르세요!</p>
-        <button id="GO_BTN" class="start-btn">시작하기</button>
+        <h2 style="color:#e65100; margin-top: 40px;">🧪 곱셈공식 1, 2 챌린지</h2>
+        <p style="color:gray; line-height:1.6;">정답: <b>+100점</b> (0.8초 정지)<br><span style="color:red; font-weight:bold;">오답: -100점 (2초간 시간 계속 흐름!)</span></p>
+        <button id="GO_BTN" class="start-btn">시작하기!</button>
     </div>
 
     <div id="S_QUIZ" class="scr">
@@ -34,90 +37,114 @@
             <div>시간: <span id="TIME_VAL">60</span>초</div>
         </div>
         <div id="P_TXT" class="pr"></div>
-        <div id="O_BOX"></div>
-        <div id="fb-msg"></div>
+        <div id="O_BOX" class="btn-grid"></div>
+        <div id="fb-msg">신중하게 풀어보세요!</div>
     </div>
 
     <div id="S_RES" class="scr">
-        <h2 style="color:#7b1fa2;">🏁 종료!</h2>
-        <p style="font-size: 1.8rem; margin: 10px 0;">최종 점수: <span id="FINAL_SCORE" style="color:red;">0</span>점</p>
-        <button onclick="location.reload()" class="opt-btn" style="background:#9c27b0; color:white; margin-top:20px;">다시 시작하기</button>
+        <h2 style="color:#e65100;">🏁 결과 확인</h2>
+        <p style="font-size: 2rem; margin: 10px 0;">최종 점수: <span id="FINAL_SCORE" style="color:red;">0</span>점</p>
+        <button id="RE_BTN" class="re-btn">다시 도전하기</button>
     </div>
 </div>
 
 <script>
 (function() {
     var ans = "", score = 0, timeLeft = 60, timer = null, isPaused = false;
-    const bgm = document.getElementById('myBgm');
+    const bgm = document.getElementById('bgm');
+
+    // 곱셈공식 1번(합의 제곱), 2번(차의 제곱) 데이터
+    const formulas = [
+        { q: "(x + 1)²", a: "x² + 2x + 1" },
+        { q: "(x + 3)²", a: "x² + 6x + 9" },
+        { q: "(x + 5)²", a: "x² + 10x + 25" },
+        { q: "(a + 4)²", a: "a² + 8a + 16" },
+        { q: "(2x + 1)²", a: "4x² + 4x + 1" },
+        { q: "(3a + 2)²", a: "9a² + 12a + 4" },
+        { q: "(x - 1)²", a: "x² - 2x + 1" },
+        { q: "(x - 2)²", a: "x² - 4x + 4" },
+        { q: "(x - 6)²", a: "x² - 12x + 36" },
+        { q: "(a - 7)²", a: "a² - 14a + 49" },
+        { q: "(2x - 3)²", a: "4x² - 12x + 9" },
+        { q: "(4a - 1)²", a: "16a² - 8a + 1" }
+    ];
 
     function init() {
-        // 음악 재생 시도 (실패해도 게임은 시작되게!)
-        try {
-            bgm.play().catch(e => {
-                console.log("음악 재생 실패: 파일이 없거나 이름이 다름");
-            });
-        } catch(e) {}
-        
         document.getElementById('S_START').classList.remove('on');
+        document.getElementById('S_RES').classList.remove('on');
         document.getElementById('S_QUIZ').classList.add('on');
-        
-        // 기계음(beep) 완전 삭제 확인
-        startTimer();
+        score = 0; timeLeft = 60; isPaused = false;
+        bgm.volume = 0.3;
+        bgm.play().catch(e => {});
+        updateUI();
         make();
-    }
-
-    function startTimer() {
         if(timer) clearInterval(timer);
         timer = setInterval(function() {
             if(!isPaused) {
                 timeLeft--;
-                document.getElementById('TIME_VAL').innerText = timeLeft;
-                document.getElementById('t-bar-inner').style.width = (timeLeft/60)*100 + "%";
+                updateUI();
                 if(timeLeft <= 0) endGame();
             }
         }, 1000);
     }
 
-    function fmt(f, m, l) {
-        var s = "";
-        if (f === 1) s += "x²"; else if (f === -1) s += "-x²"; else s += f + "x²";
-        if (m !== 0) { s += (m > 0 ? " + " : " - "); var am = Math.abs(m); s += (am === 1 ? "x" : am + "x"); }
-        if (l !== 0) s += (l > 0 ? " + " + l : " - " + Math.abs(l));
-        return s;
+    function updateUI() {
+        document.getElementById('SCORE_VAL').innerText = score;
+        document.getElementById('TIME_VAL').innerText = timeLeft;
+        document.getElementById('t-bar-inner').style.width = (timeLeft / 60 * 100) + "%";
     }
 
     function make() {
         isPaused = false;
-        document.getElementById('fb-msg').innerHTML = "";
-        var a = Math.floor(Math.random() * 3) + 1, b = Math.floor(Math.random() * 8) + 1, type = Math.floor(Math.random() * 3);
-        var pText = "", correct = "", ws = [];
+        document.getElementById('fb-msg').innerHTML = "알맞은 전개식을 고르세요!";
+        document.getElementById('fb-msg').style.backgroundColor = "#fffaf0";
+        
+        const item = formulas[Math.floor(Math.random() * formulas.length)];
+        document.getElementById('P_TXT').innerHTML = item.q;
+        ans = item.a;
+        
+        let os = [ans];
+        while(os.length < 4) {
+            let w = formulas[Math.floor(Math.random() * formulas.length)].a;
+            if(os.indexOf(w) === -1) os.push(w);
+        }
+        os.sort(() => Math.random() - 0.5);
 
-        if (type === 0) { pText = "("+(a==1?"":a)+"x+"+b+")²"; correct = fmt(a*a, 2*a*b, b*b); ws = [fmt(a*a,0,b*b), fmt(a*a,a*b,b*b), fmt(a*a,2*a*b,b)]; }
-        else if (type === 1) { pText = "("+(a==1?"":a)+"x-"+b+")²"; correct = fmt(a*a, -2*a*b, b*b); ws = [fmt(a*a,0,-b*b), fmt(a*a,-2*a*b,-b*b), fmt(a*a,-a*b,b*b)]; }
-        else { pText = "("+(a==1?"":a)+"x+"+b+")("+(a==1?"":a)+"x-"+b+")"; correct = fmt(a*a,0,-(b*b)); ws = [fmt(a*a,0,b*b), fmt(a*a,-2*a*b,-b*b), fmt(a*a,0,-b)]; }
-
-        document.getElementById('P_TXT').innerText = pText;
-        ans = correct;
-        var os = [ans, ws[0], ws[1], ws[2]].sort(() => 0.5 - Math.random());
-        var box = document.getElementById('O_BOX'); box.innerHTML = "";
+        const box = document.getElementById('O_BOX'); box.innerHTML = "";
         os.forEach(v => {
-            var btn = document.createElement('button'); btn.className = 'opt-btn'; btn.innerText = v;
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn'; btn.innerText = v;
             btn.onclick = () => { if(!isPaused) check(v); };
             box.appendChild(btn);
         });
     }
 
     function check(v) {
+        const fb = document.getElementById('fb-msg');
+        
         if(v === ans) {
+            isPaused = true; // 정답일 때만 시간 멈춤
             score += 100;
-            document.getElementById('SCORE_VAL').innerText = score;
-            document.getElementById('fb-msg').innerHTML = "<span style='color:blue;'>정답! +100 ✨</span>";
-            setTimeout(make, 300);
+            fb.innerHTML = "<span style='color:blue;'>정답! +100 ✨</span>";
+            fb.style.backgroundColor = "#e8f5e9";
+            setTimeout(() => { make(); }, 800); 
         } else {
-            isPaused = true; 
-            document.getElementById('fb-msg').innerHTML = "<span style='color:red;'>오답! 🧐 정답: </span><br>" + ans;
-            setTimeout(make, 1800);
+            // ★ 오답 시 시간은 계속 흐름 (isPaused를 true로 만들지 않음)
+            score = Math.max(0, score - 100);
+            fb.innerHTML = "<span style='color:red;'>오답! -100점 💀<br>정답: " + ans + "</span>";
+            fb.style.backgroundColor = "#ffebee";
+            
+            // 2초간 버튼만 못 누르게 막고 시간은 흐르게 방치
+            let tempWait = true; 
+            isPaused = false; // 타이머는 계속 가게 둠
+            
+            // 버튼들 클릭 못하게 막기 위해 임시 변수 사용 (make()가 호출되기 전까지는 클릭 안됨)
+            const btns = document.querySelectorAll('.opt-btn');
+            btns.forEach(b => b.style.opacity = "0.5");
+            
+            setTimeout(() => { make(); }, 2000); 
         }
+        updateUI();
     }
 
     function endGame() {
@@ -129,6 +156,7 @@
     }
 
     document.getElementById('GO_BTN').onclick = init;
+    document.getElementById('RE_BTN').onclick = init;
 })();
 </script>
 </body>
